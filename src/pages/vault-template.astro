@@ -13,7 +13,7 @@ const res = await esbuild.build({
     entryPoints: [`${process.cwd()}/src/resources/VaultTemplateScripts.ts`],
     bundle: true,
     write: false,
-    minify: false,
+    minify: true,
     format: 'esm',
     target: 'es2015',
     sourcemap: false,
