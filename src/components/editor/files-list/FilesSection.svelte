@@ -19,11 +19,8 @@
     h1 {
         color: var(--headline);
         margin: 0;
-        padding: 0;
     }
     .files-section {
-        margin: 2rem;
-        max-width: 60rem;
-        min-width: 30rem;
+        padding: 1rem;
     }
 </style>

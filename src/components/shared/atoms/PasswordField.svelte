@@ -28,6 +28,7 @@
         background-color: var(--background);
         transition: outline 200ms ease-out;
         transition: border 200ms ease-out;
+        width: 100%;
     }
 
     input:focus {

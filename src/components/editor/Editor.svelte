@@ -1,5 +1,5 @@
 <script lang="ts">
-    import FilesList from './files-list/FilesSection.svelte';
+    import FilesSection from './files-list/FilesSection.svelte';
     import PasswordForm from './password/PasswordForm.svelte';
     import { useFilesList } from './UseFilesList';
 
@@ -8,7 +8,7 @@
 </script>
 
 <div class="editor">
-    <FilesList files={$files} {removeFile} {addFiles} />
+    <FilesSection files={$files} {removeFile} {addFiles} />
     <PasswordForm {encrypt} {downloadUrl} />
 </div>
 
@@ -17,7 +17,13 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 3rem;
-        margin-top: 3rem;
+        gap: 2rem;
+    }
+    .editor > :global(*) {
+        max-width: 30rem;
+    }
+    .editor > :global(:first-child) {
+        max-width: 60rem;
+        min-width: min(100%, 30rem);
     }
 </style>

@@ -9,10 +9,9 @@
         align-items: center;
 
         width: 100%;
-        max-width: 30rem;
         gap: 1rem;
         color: var(--card-paragraph);
-        padding: 2rem;
+        padding: 1rem;
         background-color: var(--card-background);
     }
 
