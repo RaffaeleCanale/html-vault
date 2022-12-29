@@ -1,0 +1,55 @@
+---
+import fs from 'fs/promises';
+
+export interface Props {
+    inlineFavicon: boolean;
+    title: string;
+}
+const { inlineFavicon, title } = Astro.props;
+
+let faviconHref = '/favicon.svg';
+
+if (inlineFavicon) {
+    const favicon = new TextDecoder().decode(
+        await fs.readFile(`${process.cwd()}/public/favicon.svg`),
+    );
+    faviconHref = `data:image/svg+xml,${encodeURIComponent(favicon)}`;
+}
+---
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" href={faviconHref} type="image/svg+xml" />
+        <title>{title}</title>
+    </head>
+    <body>
+        <slot />
+    </body>
+</html>
+
+<style is:global>
+    :root {
+        /* https://www.happyhues.co/palettes/10 */
+        --background: #abd1c6;
+        --headline: #001e1d;
+        --paragraph: #0f3433;
+        --link: #f9bc60;
+        --card-background: #004643;
+        --card-headline: #fffffe;
+        --card-paragraph: #e8e4e6;
+        --error: #e16162;
+    }
+
+    body {
+        background-color: var(--background);
+        margin: 0;
+        font-family: system-ui, sans-serif;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+</style>

@@ -1,0 +1,10 @@
+---
+import Editor from '../components/editor/Editor.svelte';
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="HTML Vault" inlineFavicon={false}>
+    <main>
+        <Editor client:load />
+    </main>
+</Layout>
