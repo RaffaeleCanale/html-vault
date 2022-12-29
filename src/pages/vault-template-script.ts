@@ -3,13 +3,17 @@ import { decryptVault } from '../converters/VaultEncrypter';
 import type { EncryptedVault, VaultDataFile } from '../model/Vault';
 import { formatBytes } from '../utils/FileUtils';
 
+// eslint-disable-next-line
 (window as any).base64ToBytes = base64ToBytes;
+// eslint-disable-next-line
 (window as any).decryptAndPopulateVault = decryptAndPopulateVault;
 
 function useVaultViewerFilesList() {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const vaultViewerListEl = document.getElementById('value-viewer-list')!;
 
     function createFileElement(file: VaultDataFile): HTMLElement {
+        // eslint-disable-next-line
         const template = (window as any).FileCardTemplate as string;
 
         const html = template
@@ -34,6 +38,7 @@ function useVaultViewerFilesList() {
 }
 
 function useErrorHint() {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const errorEl = document.getElementById('error')!;
 
     return {
@@ -63,6 +68,7 @@ function usePasswordInput() {
 }
 
 function useLoadingPage() {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const spinnerPageEl = document.getElementById('spinner-page')!;
 
     return {
@@ -87,6 +93,7 @@ function useLoadingPage() {
 }
 
 function useVaultFormPage() {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const vaultFormPageEl = document.getElementById('vault-form-page')!;
 
     return {
@@ -104,6 +111,7 @@ function useVaultFormPage() {
 }
 
 function useVaultViewerPage() {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const viewerPageEl = document.getElementById('vault-viewer-page')!;
 
     return {
@@ -146,6 +154,7 @@ async function decryptAndPopulateVault(vault: EncryptedVault): Promise<void> {
         }
         const { files } = result[0].value;
 
+        // eslint-disable-next-line @typescript-eslint/unbound-method
         files.forEach(vaultViewer.list.addFile);
 
         vaultViewer.page.enterDown();

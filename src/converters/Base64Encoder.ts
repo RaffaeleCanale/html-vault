@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /*
 MIT License
 
@@ -141,9 +142,9 @@ function getBase64Code(charCode: number): number {
 }
 
 export function bytesToBase64(bytes: Uint8Array): string {
-    let result = '',
-        i,
-        l = bytes.length;
+    let result = '';
+    let i = 0;
+    const l = bytes.length;
     for (i = 2; i < l; i += 3) {
         result += base64abc[bytes[i - 2]! >> 2];
         result +=
@@ -176,10 +177,10 @@ export function base64ToBytes(str: string): Uint8Array {
     if (index !== -1 && index < str.length - 2) {
         throw new Error('Unable to parse base64 string.');
     }
-    let missingOctets = str.endsWith('==') ? 2 : str.endsWith('=') ? 1 : 0,
-        n = str.length,
-        result = new Uint8Array(3 * (n / 4)),
-        buffer;
+    const missingOctets = str.endsWith('==') ? 2 : str.endsWith('=') ? 1 : 0;
+    const n = str.length;
+    const result = new Uint8Array(3 * (n / 4));
+    let buffer;
     for (let i = 0, j = 0; i < n; i += 4, j += 3) {
         buffer =
             (getBase64Code(str.charCodeAt(i)) << 18) |

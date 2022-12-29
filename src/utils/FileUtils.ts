@@ -21,5 +21,6 @@ export function formatBytes(bytes: number): string {
         Math.floor(Math.log(bytes) / Math.log(k)),
         sizes.length - 1,
     );
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]!}`;
 }

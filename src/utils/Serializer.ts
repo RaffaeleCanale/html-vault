@@ -21,5 +21,5 @@ export function serializeToJs(value: unknown): string {
         return `{${serialized.join(', ')}}`;
     }
 
-    throw new Error(`Unknown type: ${typeof value} (${value})`);
+    throw new Error(`Unknown type: ${typeof value} (${String(value)})`);
 }

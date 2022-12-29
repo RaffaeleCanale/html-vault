@@ -6,7 +6,9 @@ function expectVaultDataToBeEqual(actual: Vault, expected: Vault) {
     expect(actual).toEqual(expected);
 
     for (let i = 0; i < actual.files.length; i++) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const actualFile = actual.files[i]!;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const expectedFile = expected.files[i]!;
 
         expect(new Uint8Array(actualFile.fileData)).toEqual(

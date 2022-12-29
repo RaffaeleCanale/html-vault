@@ -53,6 +53,7 @@ export function useFilesList() {
 
                 const newFiles = [...files];
                 newFiles[index] = {
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     ...newFiles[index]!,
                     state,
                 };

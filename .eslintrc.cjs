@@ -3,6 +3,7 @@ module.exports = {
     extends: [
         // ...
         'plugin:astro/recommended',
+        '@canale/eslint-config-wx',
     ],
     // ...
     overrides: [
