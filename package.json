@@ -9,7 +9,7 @@
         "build": "astro build",
         "preview": "astro preview",
         "lint": "eslint .",
-        "test": "vitest"
+        "test": "vitest --run"
     },
     "dependencies": {
         "@astrojs/svelte": "^1.0.2",

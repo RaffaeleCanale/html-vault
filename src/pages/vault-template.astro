@@ -10,7 +10,7 @@ import FileCard from '../components/shared/FileCard.svelte';
 import Layout from '../layouts/Layout.astro';
 
 const res = await esbuild.build({
-    entryPoints: [`${process.cwd()}/src/pages/vault-template-script.ts`],
+    entryPoints: [`${process.cwd()}/src/resources/VaultTemplateScripts.ts`],
     bundle: true,
     write: false,
     minify: false,
