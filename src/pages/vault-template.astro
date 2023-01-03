@@ -7,6 +7,7 @@ import ErrorHint from '../components/shared/atoms/ErrorHint.svelte';
 import FormCard from '../components/shared/atoms/FormCard.svelte';
 import PasswordField from '../components/shared/atoms/PasswordField.svelte';
 import FileCard from '../components/shared/FileCard.svelte';
+import UploadIcon from '../components/shared/icons/UploadIcon.svelte';
 import Layout from '../layouts/Layout.astro';
 
 const res = await esbuild.build({
@@ -20,14 +21,26 @@ const res = await esbuild.build({
 });
 const depScript = res.outputFiles.at(0)!.text;
 
-const FileCardTemplate = (FileCard as any).render({
-    name: '__NAME__',
-    size: 0,
-});
+const icon = (UploadIcon as any).render().html;
+const FileCardTemplate = (FileCard as any).render(
+    {
+        name: '__NAME__',
+        size: 0,
+        clickableDetails: true,
+    },
+    {
+        $$slots: {
+            suffix: () =>
+                `<a href="__DOWNLOAD_URL__" download="__NAME__">${icon}</a>"`,
+        },
+    },
+);
+
 const templatesScript = `window.FileCardTemplate = '${FileCardTemplate.html.replaceAll(
     '\n',
     '',
 )}';`;
+console.log(FileCardTemplate.html);
 ---
 
 <Layout title="HTML Vault" inlineFavicon={true}>
@@ -55,6 +68,12 @@ const templatesScript = `window.FileCardTemplate = '${FileCardTemplate.html.repl
                 files={[]}
                 removeFile={() => {}}
             />
+        </div>
+
+        <div id="file-preview-page">
+            <div id="file-preview-container">
+                <div id="file-preview"></div>
+            </div>
         </div>
     </main>
 </Layout>
@@ -85,6 +104,10 @@ const templatesScript = `window.FileCardTemplate = '${FileCardTemplate.html.repl
         justify-content: center;
     }
 
+    #vault-form-page .form-card {
+        max-width: 40rem;
+    }
+
     #vault-viewer-page {
         position: absolute;
 
@@ -99,15 +122,57 @@ const templatesScript = `window.FileCardTemplate = '${FileCardTemplate.html.repl
         flex-direction: column;
     }
 
-    h1 {
-        color: var(--headline);
+    :root {
+        --preview-animation-duration: 300ms;
     }
-    #list {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 1rem;
-        border-radius: 0.5rem;
+    #file-preview-page {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: none;
+        opacity: 0;
+        animation: grow var(--preview-animation-duration) forwards;
+        /* transition: left 1s, top 1s, width 1s, height 1s; */
+        /* transition: all 1s; */
+        /* background-color: var(--card-background); */
+        /* margin: 3rem; */
+        padding: 3rem;
+    }
+    #file-preview-page.shrink {
+        /* animation: unset !important; */
+        /* animation: grow 1s backwards; */
+        /* animation-direction: reverse; */
+        /* top: 0;
+        left: 0;
+        width: 100%;
+        height: 100; */
+        animation: shrink var(--preview-animation-duration) forwards;
+    }
+
+    @keyframes grow {
+        100% {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 1;
+        }
+    }
+    @keyframes shrink {
+        0% {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 1;
+        }
+    }
+
+    #file-preview-container {
+        background-color: var(--card-background);
+
+        width: 100%;
+        height: 100%;
     }
 </style>
 
@@ -205,7 +270,20 @@ const templatesScript = `window.FileCardTemplate = '${FileCardTemplate.html.repl
 </style>
 
 <script is:inline>
-    const vault = __VAULT_PLACEHOLDER__;
+    // const vault = __VAULT_PLACEHOLDER__;
+    const vault = {
+        data: {
+            keyOptions: {
+                salt: base64ToBytes('bX1I7J6Z6jBksOrUIMwfTg=='),
+                iterations: 1000000,
+                keySize: 32,
+            },
+            iv: base64ToBytes('CrSU3UsUAWjQf6yGWIKVKA=='),
+            encryptedData: base64ToBytes(
+                'tJ0M9FRACXsesAvUWdYX0KfqbVdvdTg4K0C5rDplTDJB1YG5m5XXCYXK3CYnqiz8EuRIQL9Weo89qxyuDDEfAy2NEfv/Dk2xyxAN6FeAaZqrN+m8/HT5P3maMMPNB6JvYhrvGpm1TW3vtAIOPoTfGPCVY6aS0OYt2xuQTotmAd5eEvHFMOEhwEiegRclq9hNa1jn/acDBTlJK82/3CFEHOjVQYA=',
+            ),
+        },
+    };
 
     document.getElementById('submit').addEventListener('click', async () => {
         decryptAndPopulateVault(vault);

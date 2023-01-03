@@ -8,7 +8,9 @@ import { formatBytes } from '../utils/FileUtils';
 // eslint-disable-next-line
 (window as any).decryptAndPopulateVault = decryptAndPopulateVault;
 
-function useVaultViewerFilesList() {
+function useVaultViewerFilesList(
+    filePreview: ReturnType<typeof useFilePreviewPage>,
+) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const vaultViewerListEl = document.getElementById('value-viewer-list')!;
 
@@ -16,13 +18,24 @@ function useVaultViewerFilesList() {
         // eslint-disable-next-line
         const template = (window as any).FileCardTemplate as string;
 
+        const downloadUrl = `data:${file.type};base64,${btoa(
+            new TextDecoder().decode(file.fileData),
+        )}`;
         const html = template
-            .replace('__NAME__', file.name)
-            .replace('0 Bytes', formatBytes(file.fileData.byteLength));
-        const a = document.createElement('a');
-        a.innerHTML = html;
+            .replaceAll('__NAME__', file.name)
+            .replaceAll('0 Bytes', formatBytes(file.fileData.byteLength))
+            .replaceAll('__DOWNLOAD_URL__', downloadUrl);
 
-        return a;
+        const container = document.createElement('div');
+        container.innerHTML = html;
+        const result = container.firstElementChild as HTMLElement;
+        result
+            .getElementsByClassName('file-card__details')[0]
+            ?.addEventListener('click', () => {
+                console.log('CLICK!');
+                filePreview.show(result, file);
+            });
+        return result;
     }
 
     return {
@@ -47,6 +60,64 @@ function useErrorHint() {
         },
         hide() {
             errorEl.setAttribute('hidden', 'true');
+        },
+    };
+}
+
+function useFilePreviewPage() {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const filePreviewPageEl = document.getElementById('file-preview-page')!;
+    const filePreviewEl = document.getElementById('file-preview')!;
+
+    filePreviewPageEl.addEventListener('click', () => {
+        // filePreviewPageEl.setAttribute('style', 'display: none;');
+        filePreviewPageEl.classList.add('shrink');
+        setTimeout(() => {
+            filePreviewPageEl.classList.remove('shrink');
+            filePreviewPageEl.removeAttribute('style');
+        }, 1000);
+    });
+
+    function render(file: VaultDataFile): HTMLElement {
+        switch (file.type) {
+            case 'text/plain':
+                const div = document.createElement('div');
+                div.innerText = new TextDecoder().decode(file.fileData);
+                return div;
+            default: {
+                const div = document.createElement('div');
+                div.innerText = 'Cannot render';
+                return div;
+            }
+        }
+    }
+
+    return {
+        show(fileEl: HTMLElement, file: VaultDataFile) {
+            filePreviewPageEl.classList.remove('test');
+
+            const rect = fileEl.getBoundingClientRect();
+
+            const styles = [
+                'display: flex',
+                `left: ${rect.left}px`,
+                `top: ${rect.top}px`,
+                `width: ${rect.width}px`,
+                `height: ${rect.height}px`,
+            ].join(';');
+            filePreviewPageEl.setAttribute('style', styles);
+
+            filePreviewEl.innerHTML = '';
+            filePreviewEl.appendChild(render(file));
+            // filePreviewPageEl.classList.add('--dialog');
+            // const styles2 = [
+            //     'display: flex',
+            //     `left: 0px`,
+            //     `top: 0px`,
+            //     `width: 100%`,
+            //     `height: 100%`,
+            // ].join(';');
+            // filePreviewPageEl.setAttribute('style', styles2);
         },
     };
 }
@@ -132,9 +203,13 @@ async function decryptAndPopulateVault(vault: EncryptedVault): Promise<void> {
         page: useLoadingPage(),
     };
 
+    const filePreview = {
+        page: useFilePreviewPage(),
+    };
+
     const vaultViewer = {
         page: useVaultViewerPage(),
-        list: useVaultViewerFilesList(),
+        list: useVaultViewerFilesList(filePreview.page),
     };
 
     vaultForm.page.exitUp();
