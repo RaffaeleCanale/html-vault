@@ -45,6 +45,7 @@ describe('HtmlSinglePipeline', () => {
         encryptedFiles: FileData[],
         password: string,
     ): Promise<FileData[]> {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const vault = new TextDecoder().decode(encryptedFiles[0]!.data);
         return HtmlSingleDecrypt.decrypt(vault, password);
     }

@@ -74,7 +74,7 @@ function render(
     switch (file.type) {
         case 'text/plain':
             const div = document.createElement('div');
-            div.innerText = new TextDecoder().decode(file.data as ArrayBuffer);
+            div.innerText = new TextDecoder().decode(file.data);
             div.classList.add('--text');
             return div;
         case 'application/pdf':

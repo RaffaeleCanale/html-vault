@@ -37,7 +37,7 @@ const Palette = {
     colorDarkTint: '#1a1a1a',
 } as const;
 
-type Color = keyof typeof Palette;
+// type Color = keyof typeof Palette;
 
 interface Theme {
     '--background': string;

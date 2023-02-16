@@ -1,6 +1,6 @@
-import type { Template } from '../../../a_legacy/UseTemplatePicker';
+import type { TemplateName } from '../../../domains/template/TemplateManager';
 
-export type TemplateCardId = Template;
+export type TemplateCardId = TemplateName;
 
 export function useTemplateCard(id: TemplateCardId) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

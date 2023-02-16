@@ -7,6 +7,7 @@ export function useVaultViewerPage() {
     const preview = useFilePreviewDialog();
 
     const page = usePage('vv');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const list = document.getElementById('value-viewer-list')!;
 
     // function createFileElement(file: VaultDataFile): HTMLElement {

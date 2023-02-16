@@ -1,5 +1,5 @@
 import { useAnimatedLabel } from '../../../components/atoms/AnimatedLabel';
-import { TemplateName } from '../../../domains/template/TemplateManager';
+import type { TemplateName } from '../../../domains/template/TemplateManager';
 import { useTemplateCard } from '../components/TemplateCard';
 
 export function useTemplatePickerSlide() {

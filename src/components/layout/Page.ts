@@ -1,4 +1,4 @@
-export type PageId = 'vf';
+export type PageId = 'vf' | 'vv';
 
 export function usePage(id: PageId) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
