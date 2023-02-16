@@ -1,0 +1,80 @@
+---
+import type { PageId } from './Page';
+
+export interface Props {
+    id: PageId;
+    dark?: boolean;
+}
+
+const { id, dark } = Astro.props;
+// console.log('PAGE', Astro.slots);
+---
+
+<div id={id} class:list={['page', { '--dark': dark }]}>
+    <slot />
+</div>
+
+<style>
+    :global(.page) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: var(--background-color);
+        --page-animation-duration: 600ms;
+    }
+
+    :global(.--enter-up) {
+        display: flex !important;
+        animation: enterUp var(--page-animation-duration) forwards;
+    }
+
+    :global(.--enter-down) {
+        display: flex !important;
+        animation: enterDown var(--page-animation-duration) forwards;
+    }
+
+    :global(.--exit-up) {
+        display: flex !important;
+        animation: exitUp var(--page-animation-duration) forwards;
+    }
+
+    :global(.--exit-down) {
+        display: flex !important;
+        animation: exitDown var(--page-animation-duration) forwards;
+    }
+
+    @keyframes enterDown {
+        0% {
+            transform: translateY(150%);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+    @keyframes exitDown {
+        0% {
+            transform: translateY(0);
+        }
+        100% {
+            transform: translateY(100%);
+        }
+    }
+    @keyframes exitUp {
+        0% {
+            transform: translateY(0);
+        }
+        100% {
+            transform: translateY(-150%);
+        }
+    }
+    @keyframes enterUp {
+        0% {
+            transform: translateY(-100%);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+</style>

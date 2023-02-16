@@ -1,0 +1,34 @@
+---
+import Button from '../../../components/atoms/Button.astro';
+import ErrorHint from '../../../components/atoms/ErrorHint.astro';
+import FormCard from '../../../components/atoms/FormCard.astro';
+import PasswordField from '../../../components/atoms/PasswordField.astro';
+import Page from '../../../components/layout/Page.astro';
+---
+
+<Page id="vf">
+    <FormCard>
+        <span slot="title">This vault is locked</span>
+        <PasswordField id="password" placeholder="Enter password" />
+        <ErrorHint id="error" hidden>Wrong password</ErrorHint>
+        <Button id="submit" type="submit">Open Vault</Button>
+    </FormCard>
+</Page>
+
+<style>
+    :global(#vf) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    :global(#vf .form-card) {
+        max-width: 40rem;
+    }
+
+    :global(#password),
+    :global(#error) {
+        animation-delay: 600ms;
+    }
+</style>

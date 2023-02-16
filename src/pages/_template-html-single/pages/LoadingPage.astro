@@ -1,0 +1,35 @@
+---
+import CogWheelSpinner from '../../../components/atoms/CogWheelSpinner.astro';
+import Page from '../../../components/layout/Page.astro';
+---
+
+<Page id="lp" dark>
+    <CogWheelSpinner id="spinner" />
+</Page>
+
+<style>
+    :global(#lp) {
+        padding-left: calc(50vw - min(30vh, 30vw) / 2);
+        padding-top: 30vh;
+        transform: translateY(100%);
+        display: none;
+    }
+
+    :global(#spinner) {
+        height: min(30vh, 30vw);
+        width: min(30vh, 30vw);
+        transform: translateY(100%);
+    }
+
+    :global(.--enter-down #spinner) {
+        animation: enterDown var(--page-animation-duration) forwards;
+        animation-delay: calc(var(--page-animation-duration) / 2);
+        transform: translateY(150%);
+    }
+    :global(.--exit-up #spinner) {
+        animation: exitUp var(--page-animation-duration) forwards;
+    }
+    :global(.--exit-down #spinner) {
+        animation: exitDown var(--page-animation-duration) forwards;
+    }
+</style>

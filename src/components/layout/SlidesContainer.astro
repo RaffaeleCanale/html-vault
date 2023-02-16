@@ -1,0 +1,24 @@
+---
+---
+
+<div class="slides-container">
+    <slot />
+</div>
+
+<style>
+    .slides-container {
+        /* scroll-snap-type: y mandatory; */
+        max-height: 100vh;
+        overflow-y: scroll;
+    }
+
+    /* .slides-container > * {
+        scroll-snap-align: center;
+    } */
+
+    @media (pointer: none), (pointer: coarse) {
+        .slides-container {
+            scroll-snap-type: y mandatory;
+        }
+    }
+</style>

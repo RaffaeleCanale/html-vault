@@ -1,0 +1,22 @@
+---
+export interface Props {
+    href: string;
+    download?: boolean;
+}
+
+const { download, href } = Astro.props;
+---
+
+<a href={href} download={download}><slot /></a>
+
+<style>
+    a {
+        text-decoration: none;
+        color: var(--link);
+        font-weight: bold;
+    }
+
+    a:hover {
+        color: var(--link-hover);
+    }
+</style>

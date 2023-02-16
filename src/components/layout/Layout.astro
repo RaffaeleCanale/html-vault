@@ -1,0 +1,72 @@
+---
+import fs from 'fs/promises';
+import { buildThemeCss } from './Theme';
+
+export interface Props {
+    inlineFavicon: boolean;
+    title: string;
+}
+const { inlineFavicon, title } = Astro.props;
+
+let faviconHref = '/favicon.svg';
+
+if (inlineFavicon) {
+    const favicon = new TextDecoder().decode(
+        await fs.readFile(`${process.cwd()}/public/favicon.svg`),
+    );
+    faviconHref = `data:image/svg+xml,${encodeURIComponent(favicon)}`;
+}
+---
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" href={faviconHref} type="image/svg+xml" />
+        <title>{title}</title>
+    </head>
+    <body>
+        <slot />
+    </body>
+</html>
+
+<style is:inline set:html={buildThemeCss()}></style>
+
+<style>
+    :global(body) {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        background-color: var(--background-color);
+    }
+
+    :global(a) {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    :global(*) {
+        box-sizing: border-box;
+    }
+
+    :global(.--clickable) {
+        position: relative;
+        cursor: pointer;
+        transition: filter 200ms ease-out, background-color 200ms ease-out;
+    }
+
+    :global(.--clickable:hover) {
+        filter: brightness(110%);
+    }
+
+    :global(.--clickable:active) {
+        filter: brightness(70%);
+    }
+
+    :global(div.--clickable:hover, a.--clickable:hover) {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+    :global(div.--clickable:active, a.--clickable:active) {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+</style>

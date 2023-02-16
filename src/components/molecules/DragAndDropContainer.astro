@@ -1,0 +1,77 @@
+---
+import type { FilePickerId } from '../atoms/FilePicker';
+import FilePicker from '../atoms/FilePicker.astro';
+import Link from '../atoms/Link.astro';
+import UploadIcon from '../icons/UploadIcon.svg?raw';
+
+export interface Props {
+    id: FilePickerId;
+}
+
+const { id } = Astro.props;
+---
+
+<div id={`${id}-container`} class="drag-and-drop-container">
+    <FilePicker id={id}>
+        <div class="drag-and-drop-picker">
+            <Fragment set:html={UploadIcon} />
+            <span>
+                <Link href="#">Choose a file</Link> or drag it here.
+            </span>
+        </div>
+    </FilePicker>
+
+    <div class="drag-and-drop-container__list">
+        <slot />
+    </div>
+</div>
+
+<style>
+    .drag-and-drop-container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        width: 95%;
+        border: dashed 5px var(--container-color-border);
+        border-radius: 1rem;
+    }
+
+    .drag-and-drop-container__list {
+        padding: 0.5rem;
+        width: 100%;
+    }
+
+    .drag-and-drop-picker {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        padding: 1rem;
+
+        width: 100%;
+        height: 100%;
+        color: var(--font-color);
+    }
+
+    /* TODO animations */
+    span {
+        transition: opacity 200ms;
+    }
+
+    .--dragging span {
+        opacity: 0;
+    }
+
+    :global(svg) {
+        transition: transform 300ms;
+    }
+
+    .--dragging .drag-and-drop-picker :global(svg) {
+        transform: translateY(50%);
+    }
+</style>

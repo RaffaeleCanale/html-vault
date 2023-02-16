@@ -1,0 +1,86 @@
+---
+import type { AnimatedLabelId } from './AnimatedLabel';
+
+export interface Props {
+    id: AnimatedLabelId;
+    reverse?: boolean;
+}
+
+const { id, reverse } = Astro.props;
+---
+
+<div id={id} class={`animated-label ${reverse ? '--reverse' : ''}`}>
+    <div class="animated-label__container">
+        <div class="animated-label__placeholder"></div>
+        <div class="animated-label__text">
+            <slot />
+        </div>
+    </div>
+</div>
+
+<style>
+    .animated-label {
+        /* background-color: violet; */
+        height: 8rem;
+        padding: 0 1rem;
+    }
+
+    .animated-label__container {
+        display: flex;
+        flex-direction: column;
+        /* background-color: red; */
+    }
+
+    .--reverse .animated-label__container {
+        flex-direction: column-reverse;
+        height: 100%;
+    }
+
+    .animated-label__placeholder {
+        border-left: solid 2px var(--font-color);
+
+        /* background-color: blue; */
+        /* flex-grow: 1; */
+        height: 5rem;
+        /* animation: appear 600ms ease-in-out; */
+    }
+
+    .animated-label__text {
+        border-left: solid 2px var(--font-color);
+
+        color: transparent;
+        transition: color 1600ms;
+
+        /* background-color: green; */
+        /* height: 8rem; */
+        /* background-color: red; */
+        font-size: 2rem;
+        /* border-left: solid 2px var(--color-tertiary); */
+        padding: 0 0.5rem;
+        /* padding-top: auto; */
+        /* margin-top: auto; */
+        height: 3rem;
+    }
+
+    .--animate .animated-label__placeholder {
+        animation: grow 600ms ease-in-out;
+    }
+
+    .--animate .animated-label__text {
+        color: var(--font-color);
+    }
+
+    @keyframes grow {
+        from {
+            height: 0;
+            color: transparent;
+        }
+        30% {
+            color: transparent;
+        }
+        to {
+            height: 5rem;
+            color: red;
+        }
+    }
+</style>

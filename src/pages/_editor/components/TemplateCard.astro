@@ -1,0 +1,226 @@
+---
+import type { TemplateCardId } from './TemplateCard';
+
+export interface Props {
+    id: TemplateCardId;
+    disabled?: boolean;
+}
+
+const { id, disabled } = Astro.props;
+---
+
+<div id={id} class={`method-card glow-effect ${disabled ? '--disabled' : ''}`}>
+    <div class="method-card__icon-container">
+        <slot name="icon" />
+    </div>
+    <div class="method-card__title">
+        <slot />
+    </div>
+
+    <svg class="glow-container">
+        <rect
+            rx="1rem"
+            pathLength="100"
+            stroke-linecap="round"
+            class="glow-blur"></rect>
+        <rect
+            rx="1rem"
+            pathLength="100"
+            stroke-linecap="round"
+            class="glow-line"></rect>
+    </svg>
+</div>
+
+<style>
+    .method-card {
+        -webkit-tap-highlight-color: transparent;
+
+        position: relative;
+        background-color: var(--container-color);
+        display: flex;
+
+        min-height: 3rem;
+        max-height: 10rem;
+
+        /* border: solid 1px var(--container-color-border); */
+        border-radius: 1rem;
+        z-index: 1;
+        cursor: pointer;
+    }
+
+    .--disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .method-card:before {
+        content: '';
+        z-index: -1;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: linear-gradient(-116deg, #fc00ff 0%, #00dbde 100%);
+        background-size: 200% 200%;
+        transform: scaleX(1.03) scaleY(1.1);
+        filter: blur(3px);
+        opacity: 0;
+        border-radius: inherit;
+    }
+
+    .--active:before {
+        animation: activate 600ms ease-in-out forwards;
+        animation-delay: 300ms;
+        /* transition: opacity 1300ms; */
+    }
+
+    @keyframes activate {
+        0% {
+            opacity: 0;
+            background-position: 0% 100%;
+        }
+        50% {
+            opacity: 0.5;
+        }
+        100% {
+            opacity: 0.6;
+            background-position: 100% 0%;
+        }
+    }
+
+    .method-card::after {
+        content: '';
+        z-index: -1;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: inherit;
+        border-radius: inherit;
+    }
+
+    .method-card__icon-container {
+        padding: 1rem;
+    }
+
+    .method-card :global(path) {
+        transition: fill 600ms;
+        transition-delay: 300ms;
+    }
+
+    .method-card:not(.--active) :global(path) {
+        fill: var(--font-color-disabled);
+        /* color: var(--font-color); */
+    }
+
+    .method-card__title {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        font-size: 2rem;
+        padding: 1rem;
+        color: var(--font-color);
+        transition: color 300ms;
+    }
+
+    /* .method-card:hover .method-card__title,
+    .--active .method-card__title {
+        color: var(--font-color);
+    } */
+
+    .glow-effect {
+        --glow-line-color: green;
+        --glow-line-thickness: 2px;
+        --glow-line-length: 20px;
+        --glow-blur-color: #fff;
+        --glow-blur-size: 5px;
+        --glow-offset: 0px;
+        --animation-speed: 600ms;
+        /* do not change, used for calculations */
+        --container-offset: 100px;
+        position: relative;
+    }
+
+    .glow-container {
+        pointer-events: none;
+        position: absolute;
+        inset: calc(var(--container-offset) / -2);
+        width: calc(100% + var(--container-offset));
+        height: calc(100% + var(--container-offset));
+        opacity: 0;
+        /* outline: 3px solid blue; */
+    }
+
+    .glow-blur,
+    .glow-line {
+        width: calc(100% - var(--container-offset) + var(--glow-offset));
+        height: calc(100% - var(--container-offset) + var(--glow-offset));
+        x: calc((var(--container-offset) / 2) + calc(var(--glow-offset) / -2));
+        y: calc((var(--container-offset) / 2) + calc(var(--glow-offset) / -2));
+        /* rx: 1.25rem; */
+        fill: transparent;
+        stroke: black;
+        stroke-width: 5px;
+        stroke-dasharray: var(--glow-line-length)
+            calc(50px - var(--glow-line-length));
+    }
+
+    .--active :is(.glow-line, .glow-blur) {
+        stroke-dashoffset: -80px;
+        transition: stroke-dashoffset var(--animation-speed) ease-in;
+    }
+
+    .glow-line {
+        stroke: var(--glow-line-color);
+        stroke-width: var(--glow-line-thickness);
+    }
+
+    .glow-blur {
+        filter: blur(var(--glow-blur-size));
+        stroke: var(--glow-blur-color);
+        stroke-width: var(--glow-blur-size);
+    }
+
+    .--active .glow-container {
+        animation: glow-visibility ease-in-out var(--animation-speed);
+    }
+
+    @keyframes glow-visibility {
+        0%,
+        100% {
+            opacity: 0;
+        }
+        25%,
+        75% {
+            opacity: 1;
+        }
+    }
+
+    .--active .glow-line {
+        animation: glow-color ease-in-out var(--animation-speed);
+    }
+
+    @keyframes glow-color {
+        0% {
+            stroke: #fc00ff;
+        }
+        100% {
+            stroke: #00dbde;
+        }
+    }
+
+    .glow-effect[data-glow-animation='false'] {
+        --glow-line-length: 50px;
+    }
+    .glow-effect[data-glow-offset='true'] {
+        --glow-offset: 10px;
+    }
+
+    .glow-effect[data-glow-animation='grow']:is(:hover, :focus)
+        .glow-container {
+        scale: 1.3;
+        transition: scale var(--animation-speed) linear;
+    }
+</style>

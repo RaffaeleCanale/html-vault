@@ -1,0 +1,15 @@
+---
+import type { FilePickerId } from '../atoms/FilePicker';
+import CardsList from '../molecules/CardsList.astro';
+import DragAndDropContainer from '../molecules/DragAndDropContainer.astro';
+
+export interface Props {
+    id: FilePickerId;
+}
+
+const { id } = Astro.props;
+---
+
+<DragAndDropContainer id={id}>
+    <CardsList id={`${id}-list`} />
+</DragAndDropContainer>

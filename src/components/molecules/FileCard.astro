@@ -1,0 +1,62 @@
+<!-- ---
+import { formatBytes } from '../../../utils/FileUtils';
+
+interface Props {
+    name: string;
+    size: number;
+    clickableDetails?: boolean;
+}
+
+const { name, size, clickableDetails } = Astro.props;
+const showSuffix = !!Astro.slots.suffix;
+
+console.log('showSuffix', showSuffix);
+---
+
+<div class="file-card --dark">
+    <div
+        class:list={['file-card__details', { '--clickable': clickableDetails }]}
+    >
+        <h3>{name}</h3>
+        <span>{formatBytes(size)}</span>
+    </div>
+
+    {
+        showSuffix && (
+            <div class="file-card__suffix --clickable">
+                <slot name="suffix" />
+            </div>
+        )
+    }
+</div>
+
+<style>
+    h3 {
+        margin: 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .file-card {
+        display: flex;
+        flex-direction: row;
+        background-color: var(--background-color);
+        color: var(--font-color);
+    }
+
+    .file-card__details {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        gap: 0.2rem;
+        padding: 1rem;
+
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .file-card__suffix {
+        padding: 1rem;
+    }
+</style> -->

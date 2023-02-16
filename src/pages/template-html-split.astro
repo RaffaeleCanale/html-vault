@@ -1,0 +1,37 @@
+---
+import Layout from '../components/layout/Layout.astro';
+import { buildScript } from '../utils/EsbuildUtils';
+import LoadingPage from './_template-html-single/pages/LoadingPage.astro';
+import VaultViewerPage from './_template-html-single/pages/VaultViewerPage.astro';
+import SplitVaultFormPage from './_template-html-split/pages/SplitVaultFormPage.astro';
+
+const depScript = await buildScript(
+    'pages/_template-html-split/TemplateHtmlSplit',
+);
+---
+
+<Layout title="HTML Vault" inlineFavicon={true}>
+    <main>
+        <SplitVaultFormPage />
+
+        <LoadingPage />
+
+        <VaultViewerPage />
+
+        <script set:html={depScript}></script>
+    </main>
+</Layout>
+
+<style>
+    :root {
+        background-color: var(--background-color);
+    }
+</style>
+
+<script is:inline>
+    window.vaultPart = '__VAULT_PLACEHOLDER__';
+
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+</script>

@@ -1,0 +1,54 @@
+---
+export interface Props {
+    variant: 'light' | 'dark';
+}
+
+const { variant } = Astro.props;
+---
+
+<div class={`slide --${variant}`}>
+    <div class="slide-container">
+        <slot />
+    </div>
+</div>
+
+<style>
+    .slide {
+        width: 100%;
+        scroll-snap-align: center;
+        background: var(--background);
+    }
+
+    .slide.--dark {
+        /* https://css-generators.com/wavy-shapes/ */
+        --mask: radial-gradient(4.47rem at 50% 6rem, #000 99%, #0000 101%)
+                calc(50% - 4rem) 0/8rem 51% repeat-x,
+            radial-gradient(4.47rem at 50% -4rem, #0000 99%, #000 101%) 50% 2rem/8rem
+                calc(51% - 2rem) repeat-x,
+            radial-gradient(
+                    4.47rem at 50% calc(100% - 6rem),
+                    #000 99%,
+                    #0000 101%
+                )
+                calc(50% - 4rem) 100%/8rem 51% repeat-x,
+            radial-gradient(
+                    4.47rem at 50% calc(100% + 4rem),
+                    #0000 99%,
+                    #000 101%
+                )
+                50% calc(100% - 2rem) / 8rem calc(51% - 2rem) repeat-x;
+        -webkit-mask: var(--mask);
+        mask: var(--mask);
+    }
+
+    .slide-container {
+        /* border: solid 2px var(--font-color); */
+        /* max-width: 30rem; */
+        max-width: 50rem;
+        margin: auto;
+    }
+
+    .slide-container > :global(*) {
+        min-height: 90vh;
+    }
+</style>

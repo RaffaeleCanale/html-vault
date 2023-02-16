@@ -1,0 +1,45 @@
+---
+import type { ButtonId } from './Button';
+
+export interface Props {
+    id: ButtonId;
+    type?: 'submit' | 'button';
+}
+
+const type = Astro.props.type ?? 'button';
+const id = Astro.props.id ?? '';
+---
+
+<button id={id} type={type} class="--clickable"><slot /></button>
+
+<style>
+    button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 1.2rem;
+        color: var(--button-font-color);
+        border: none;
+        padding: 0.5rem;
+        cursor: pointer;
+        /* --clickable-background-color: var(--button-background-color); */
+        background-color: var(--button-background-color);
+        /* background-color: var(--link); */
+        /* background-color: transparent; */
+        /* background-color: rgba(0, 0, 0, 0.1); */
+        /* transition: filter 200ms ease-out; */
+
+        --background-color: var(--button-background-color);
+    }
+
+    /* button:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: var(--link-hover);
+        filter: brightness(110%);
+    }
+
+    button:active {
+        filter: brightness(80%);
+    } */
+</style>

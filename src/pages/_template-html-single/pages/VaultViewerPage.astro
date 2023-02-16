@@ -1,0 +1,21 @@
+---
+import Page from '../../../components/layout/Page.astro';
+import CardsList from '../../../components/molecules/CardsList.astro';
+import FilePreviewDialog from '../components/FilePreviewDialog.astro';
+---
+
+<Page id="vv">
+    <h1>Files</h1>
+    <CardsList id="value-viewer-list" />
+
+    <FilePreviewDialog />
+</Page>
+
+<style>
+    :global(#vv) {
+        padding: 4rem;
+        transform: translateY(100%);
+        display: none;
+        flex-direction: column;
+    }
+</style>

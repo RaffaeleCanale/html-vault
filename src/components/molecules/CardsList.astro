@@ -1,0 +1,27 @@
+---
+import type { CardsListId } from './CardsList';
+
+interface Props {
+    id: CardsListId;
+}
+
+const { id } = Astro.props;
+---
+
+<div id={id} class="cards-list">
+    <slot />
+</div>
+
+<style>
+    .cards-list {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+
+    /* .cards-list__item {
+        max-width: 100%;
+    } */
+</style>

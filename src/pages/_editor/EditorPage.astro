@@ -1,0 +1,32 @@
+---
+import Slide from '../../components/layout/Slide.astro';
+import SlidesContainer from '../../components/layout/SlidesContainer.astro';
+import FilesSlide from './slides/FilesSlide.astro';
+import PasswordFormSlide from './slides/PasswordFormSlide.astro';
+import TemplatePickerSlide from './slides/TemplatePickerSlide.astro';
+---
+
+<!-- <script lang="ts">
+    import Slide from '../shared/templates/Slide.astro';
+    import SlidesContainer from '../shared/templates/SlidesContainer.astro';
+
+    // const { addFiles, removeFile, files } = useFilesList();
+
+    // const { template, templatePromise } = useTemplatePicker();
+    // const { encrypt, resultVaultFiles } = useEncrypter(
+    //     files,
+    //     template,
+    //     templatePromise,
+    // );
+</script> -->
+<SlidesContainer>
+    <Slide variant="light">
+        <FilesSlide />
+    </Slide>
+    <Slide variant="dark">
+        <TemplatePickerSlide />
+    </Slide>
+    <Slide variant="light">
+        <PasswordFormSlide />
+    </Slide>
+</SlidesContainer>
